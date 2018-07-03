@@ -35,7 +35,7 @@ def multi_scale_search(pivot, screen, range=0.3, num=10):
     end_h, end_w = int((pos_h + h) * r), int((pos_w + w) * r)
     return [start_h, start_w, end_h, end_w, score]
 
-class WechatAutoJump(object):
+class WechatAutoJump(object): #新的定义方式,继承object类,可以super方法
     def __init__(self, phone, sensitivity, serverURL, debug, resource_dir):
         self.phone = phone
         self.sensitivity = sensitivity
