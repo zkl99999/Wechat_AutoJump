@@ -36,7 +36,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-g', '--gpu', default=None, type=int)
     args = parser.parse_args()
-
+    
+    #CUDA_VISIBLE_DEVICES=0,1         Devices 0 and 1 will be visible
     if args is not None:
         os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
 
@@ -48,11 +49,16 @@ if __name__ == '__main__':
     keep_prob = tf.placeholder(np.float32, name='keep_prob')
     lr = tf.placeholder(np.float32, name='lr')
 
+    ##调用自定义的前向网络框架 拉入计算图
     pred = net.forward(img, is_training, keep_prob)
     loss = tf.reduce_mean(tf.sqrt(tf.pow(pred - label, 2) + 1e-12))
+    
     tf.summary.scalar('loss', loss)
+    
     optimizer = tf.train.AdamOptimizer(lr)
+    
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+    
     with tf.control_dependencies(update_ops):
         train_op = optimizer.minimize(loss)
     saver = tf.train.Saver()
