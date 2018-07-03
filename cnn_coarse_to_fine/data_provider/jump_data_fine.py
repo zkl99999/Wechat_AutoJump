@@ -19,7 +19,7 @@ class JumpData:
         self.name_list_raw = self.name_list
         self.name_list = filter(lambda name: 'res' in name, self.name_list)
         self.name_list = list(self.name_list)
-
+        #是否多次一举
         def _name_checker(name):
             posi = name.index('_res')
             img_name = name[:posi] + '.png'
@@ -43,11 +43,13 @@ class JumpData:
             mask1 = (img[:, :, 0] == 245)
             mask2 = (img[:, :, 1] == 245)
             mask3 = (img[:, :, 2] == 245)
+            #三个通道相交的地方,白点区域
             mask = mask1 * mask2 * mask3
+            #白点区域,周围颜色着色,rgb
             img[mask] = img[x + 10, y + 14, :]
             x_a = np.random.randint(-50, 50)
             y_a = np.random.randint(-50, 50)
-
+            #为了防止网络学到trivial的结果，我们对每一张图增加了50像素的随机偏移。
             x1 = x - 160 + x_a
             x2 = x + 160 + x_a
             y1 = y - 160 + y_a
