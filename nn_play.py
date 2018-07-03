@@ -35,7 +35,8 @@ def multi_scale_search(pivot, screen, range=0.3, num=10):
     end_h, end_w = int((pos_h + h) * r), int((pos_w + w) * r)
     return [start_h, start_w, end_h, end_w, score]
 
-class WechatAutoJump(object): #新的定义方式,继承object类,可以super方法
+class WechatAutoJump(object): 
+    #新的定义方式,继承object类,可以super方法
     def __init__(self, phone, sensitivity, serverURL, debug, resource_dir):
         self.phone = phone
         self.sensitivity = sensitivity
@@ -64,6 +65,8 @@ class WechatAutoJump(object): #新的定义方式,继承object类,可以super方
         self.label = tf.placeholder(tf.float32, [None, 2], name='label')
         self.is_training = tf.placeholder(np.bool, name='is_training')
         self.keep_prob = tf.placeholder(np.float32, name='keep_prob')
+        
+        #在会话中,在计算图中,?
         self.pred = self.net.forward(self.img, self.is_training, self.keep_prob)
         self.pred_fine = self.net_fine.forward(self.img_fine, self.is_training, self.keep_prob)
 
@@ -79,6 +82,7 @@ class WechatAutoJump(object): #新的定义方式,继承object类,可以super方
         print('==== successfully restored ====')
 
     def get_current_state(self):
+        #state,img2numpy
         if self.phone == 'Android':
             os.system('adb shell screencap -p /sdcard/1.png')
             os.system('adb pull /sdcard/1.png state.png')
